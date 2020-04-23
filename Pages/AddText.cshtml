@@ -1,0 +1,10 @@
+﻿@page
+@model StatisticCollector.Pages.AddTextModel
+@{
+    ViewData["Title"] = "Add text";
+}
+<h2>@Model.message</h2>
+<form method="post">
+    <input type="text" name="text" />
+    <input type="submit" value="Send" />
+</form>

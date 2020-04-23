@@ -1,0 +1,11 @@
+﻿@page
+@model StatisticCollector.Pages.UserDictionaries.CreateModel
+@{
+    ViewData["Title"] = "Add your text";
+}
+<h2>@ViewData["Title"]</h2>
+<div asp-validation-summary="All"></div>
+<form method="POST">
+    <div><label>Text:</label><br /><input asp-for="text" type="text" /></div>
+    <input type="submit" value="Отправить" />
+</form>
