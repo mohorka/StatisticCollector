@@ -10,18 +10,34 @@ namespace StatisticCollector.Extensions
     {
         public static List<SingleWord> DictionaryToSingleWords(this UserDictionary dictionary)
         {
-            var WordsInDictionary = dictionary.Dictionary.Keys;
-            List<SingleWord> SingleWords = new List<SingleWord>();
-            foreach (string word in WordsInDictionary)
+            var wordsInDictionary = dictionary.Dictionary.Keys;
+            List<SingleWord> singleWords = new List<SingleWord>();
+            foreach (string word in wordsInDictionary)
             {
-                SingleWords.Add(new SingleWord
+                singleWords.Add(new SingleWord
                 {
                     Word = word,
                     Frequency = dictionary.Dictionary[word],
                     Language = dictionary.Language
                 });
             }
-            return SingleWords;
+            return singleWords;
+
+        }
+        public static List<SingleWord> DictionaryToSingleWords(this Dictionary<string,uint> dictionary,string language)
+        {
+            var wordsInDictionary = dictionary.Keys;
+            List<SingleWord> singleWords = new List<SingleWord>();
+            foreach(string word in wordsInDictionary)
+            {
+                singleWords.Add(new SingleWord
+                {
+                    Word = word,
+                    Frequency=dictionary[word],
+                    Language=language
+                });
+            }
+            return singleWords;
 
         }
         public static UserDictionary WordsToDictionary(this IQueryable<SingleWord> words, string language)

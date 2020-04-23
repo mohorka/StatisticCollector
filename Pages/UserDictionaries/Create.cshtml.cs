@@ -15,8 +15,11 @@ namespace StatisticCollector.Pages.UserDictionaries
         private readonly ApplicationContext _context;
       
         private List<string> newWords { get; set; }
+        private string language { get; set; }
+        private Dictionary<string, uint> dictionary = new Dictionary<string, uint>();
+
        
-        private UserDictionary inputDictionary { get; set; }
+        //public UserDictionary inputDictionary { get; set; }
         private IQueryable<SingleWord> wordsInDb { get; set; }
 
         [BindProperty]
@@ -32,17 +35,20 @@ namespace StatisticCollector.Pages.UserDictionaries
                 try
                 {   
                     newWords = ParserService.Parse(text);
-                    inputDictionary.Language=DefineLanguageService.GetLanguage(newWords);
-                    inputDictionary.Dictionary.AddWords(newWords);
-                    wordsInDb = _context.Words.Where(x => x.Language == inputDictionary.Language);
+                    //inputDictionary.Language=DefineLanguageService.GetLanguage(newWords);
+                    language = DefineLanguageService.GetLanguage(newWords);
+                    //inputDictionary.Dictionary.AddWords(newWords);
+                    dictionary.AddWords(newWords);
+                    wordsInDb = _context.Words.Where(x => x.Language == language);
+                    
                     if (wordsInDb == null)
                     { 
-                        _context.AddRange(inputDictionary.DictionaryToSingleWords());
+                        _context.AddRange(dictionary.DictionaryToSingleWords(language));
 
                     }
                     else
                     {
-                        foreach (SingleWord word in inputDictionary.DictionaryToSingleWords())
+                        foreach (SingleWord word in dictionary.DictionaryToSingleWords(language))
                         {
                             var wordToUpdate = wordsInDb.FirstOrDefault(x => x.Word == word.Word);
                             if (wordToUpdate == null)
@@ -55,15 +61,15 @@ namespace StatisticCollector.Pages.UserDictionaries
                             }
                         }
                     }
-                    await _context.SaveChangesAsync();
-                    return RedirectToPage("/Index");
+                      await _context.SaveChangesAsync();
+                      return RedirectToPage("../Index");
 
                 }
                 catch(Exception e) 
                 {
                     return NotFound(e.Message);
                 }
-
+             
             }
             return Page();
         }

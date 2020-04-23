@@ -10,6 +10,7 @@ namespace StatisticCollector.Pages
 {
     public class AddTextModel : PageModel
     {
+        [BindProperty]
         public string inputText { get; set; }
         public List<string> outputText { get; set; }
         public string language { get; set; }
@@ -18,11 +19,11 @@ namespace StatisticCollector.Pages
         {
             message = "¬ведите текст, который хотите добавить.";
         }
-        public void OnPost(string text)
+        public void OnPost()
         {
             try
             {
-                outputText=ParserService.Parse(text);
+                outputText=ParserService.Parse(inputText);
                 language = DefineLanguageService.GetLanguage(outputText);
                 message = $"This is {language}.";
             }
