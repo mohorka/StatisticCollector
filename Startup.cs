@@ -27,7 +27,9 @@ namespace StatisticCollector
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+           
             services.AddMvc();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +43,7 @@ namespace StatisticCollector
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                
             });
         }
     }

@@ -57,7 +57,7 @@ namespace StatisticCollector.Pages.UserDictionaries
                             }
                             else
                             {
-                                _context.Words.Find(wordToUpdate).Frequency += word.Frequency;
+                                _context.Words.Find(wordToUpdate.Id).Frequency += word.Frequency;
                             }
                         }
                     }

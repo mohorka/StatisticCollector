@@ -49,6 +49,7 @@ namespace StatisticCollector.Extensions
             return userDictionary;
 
         }
+        
 
     }
 }
