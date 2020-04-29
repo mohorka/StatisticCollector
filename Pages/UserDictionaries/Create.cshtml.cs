@@ -61,8 +61,8 @@ namespace StatisticCollector.Pages.UserDictionaries
                             }
                         }
                     }
-                      await _context.SaveChangesAsync();
-                      return RedirectToPage("../Index");
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("../Index");
 
                 }
                 catch(Exception e) 
