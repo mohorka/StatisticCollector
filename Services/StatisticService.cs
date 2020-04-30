@@ -26,7 +26,7 @@ namespace StatisticCollector.Services
                     {
                         sum += frequency;
                     }
-                    return dictionary[word] / sum;
+                    return (float)dictionary[word] / (float)sum;
                 }
 
             }
@@ -53,7 +53,7 @@ namespace StatisticCollector.Services
                     {
                         sum += frequency;
                     }
-                    return "The frequency is" + dictionary[word].ToString() + "out of" + sum.ToString();
+                    return "The frequency is " + dictionary[word].ToString() + " out of " + sum.ToString();
                 }
 
             }

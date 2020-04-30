@@ -12,17 +12,21 @@ namespace StatisticCollector.Pages.Statistics
     public class GetStatisticsModel : PageModel
     {
         private readonly ApplicationContext _context;
+        
         public GetStatisticsModel(ApplicationContext context) => _context = context;
         public JsonResult OnGetResult(string word)
         {
+            
             try
             {
-                return new JsonResult($"{_context.FrequencyInCompare(word)}.The ratio is {_context.Ratio(word)}.");
+               
+                 return new JsonResult(_context.FrequencyInCompare(word)+".The ratio is "+_context.Ratio(word).ToString());
             }
             catch(Exception e)
             {
                 return new JsonResult(e.Message);
             }
+            
         }
     }
 }

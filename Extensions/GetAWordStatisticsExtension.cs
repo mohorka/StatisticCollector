@@ -11,13 +11,14 @@ namespace StatisticCollector.Extensions
     {
         public static float Ratio(this ApplicationContext context, string word)
         {
-            if (word == null)
+            string _word = word;
+            if (_word == null)
             {
                 throw new Exception("Nothing to search (Ratio method)");
             }
             else
             {
-                var wordToCount = context.Words.FirstOrDefault(x => x.Word == word);
+                var wordToCount = context.Words.FirstOrDefault(x => x.Word == _word);
                 if (wordToCount == null)
                 {
                     return 0;

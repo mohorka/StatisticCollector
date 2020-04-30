@@ -5,7 +5,7 @@
 }
 <form method="get">
  <div class="input-group mb-3">
-     <input type="text" class="form-control" placeholder="Input word" aria-label="Input word" aria-describedby="basic-addon2">
+     <input type="text" class="form-control" id="word" value="" placeholder="Input word" aria-label="Input word" aria-describedby="basic-addon2">
      <div class="input-group-append">
      <button class="btn btn-outline-secondary" id="send" type="button">Send</button>
      </div>
@@ -15,10 +15,8 @@
  @section scripts{
 <script>
     $(function () {
-        console.log('shiiiiit1')
         $('#send').on('click', function () {
-            console.log('shiiiiit')
-            $('#result').load('/Statistics/GetStatistics/Result?word=input_word');
+            $('#result').load('/Statistics/GetStatistics/Result?word='+document.getElementById("word").value);
         });
     });
  </script>

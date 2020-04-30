@@ -42,10 +42,19 @@ namespace StatisticCollector.Extensions
         }
         public static UserDictionary WordsToDictionary(this IQueryable<SingleWord> words, string language)
         {
-            UserDictionary userDictionary = new UserDictionary { Language = language };
+            UserDictionary userDictionary = new UserDictionary { Dictionary = new Dictionary<string, uint>(), Language = language };
             words.Where(x => x.Language == language)
                 .ToList()
                 .ForEach(x => userDictionary.Dictionary.Add(x.Word, x.Frequency));
+
+            /*List<SingleWord> some_words = words.Where(x => x.Language == language).ToList();
+            foreach (SingleWord word in some_words )
+            {
+               
+                userDictionary.Dictionary.Add(word.Word, word.Frequency); // troubles with adding- throw nullptr exception
+               
+
+            }*/
             return userDictionary;
 
         }

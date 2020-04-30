@@ -12,7 +12,7 @@ namespace StatisticCollector.Pages.UserDictionaries
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationContext _context;
+        private ApplicationContext _context;
       
         private List<string> newWords { get; set; }
         private string language { get; set; }
