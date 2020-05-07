@@ -14,8 +14,7 @@ namespace StatisticCollector.Pages.Statistics
         private readonly ApplicationContext _context;
         
         public GetStatisticsModel(ApplicationContext context) => _context = context;
-        public JsonResult OnGetResult(string word)
-        {
+        public JsonResult OnGetResult(string word) { 
             
             try
             {

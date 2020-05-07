@@ -8,7 +8,7 @@ using StatisticCollector.Services;
 
 namespace StatisticCollector.Pages
 {
-    public class AddTextModel : PageModel
+    public class CheckLanguageModel : PageModel
     {
         [BindProperty]
         public string inputText { get; set; }
@@ -17,7 +17,7 @@ namespace StatisticCollector.Pages
         public string message { get; set; }
         public void OnGet()
         {
-            message = "¬ведите текст, который хотите добавить.";
+            message = "Input text to define language.";
         }
         public void OnPost()
         {
@@ -25,11 +25,11 @@ namespace StatisticCollector.Pages
             {
                 outputText=ParserService.Parse(inputText);
                 language = DefineLanguageService.GetLanguage(outputText);
-                message = $"This is {language}.";
+                message = $"This is {language}. Now you can try another text.";
             }
             catch
             {
-                message="Problems with parser's work";
+                message="Problems with parser's work. Make sure that you entered your text.";
             }
 
 

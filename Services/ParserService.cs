@@ -14,7 +14,7 @@ namespace StatisticCollector.Services
             if (TextExist(text))
             {
                 List<string> parcedText = new List<string>();
-                parcedText = text.ToLower().Split(new[] { ' ', ',', ':', '?', '!', '.', ';','1',
+                parcedText = text.ToLower().Split(new[] { ' ','-', ',', ':', '?', '!', '.', ';','1',
                 '2','3','4','5','6','7','8','9','0'}, StringSplitOptions.RemoveEmptyEntries).ToList();
                 return parcedText;
             }

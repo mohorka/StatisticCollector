@@ -1,11 +1,24 @@
 ﻿@page
 @model StatisticCollector.Pages.UserDictionaries.CreateModel
 @{
-    ViewData["Title"] = "Add your text";
+    ViewData["Title"] = "Enter your text";
 }
-<h2>@ViewData["Title"]</h2>
 <div asp-validation-summary="All"></div>
-<form method="POST">
-    <div><label>Text:</label><br /><input asp-for="text" type="text" /></div>
-    <input type="submit" value="Отправить" />
+<form method="post">
+    <div style="background-color:#ADAAAA" class="jumbotron">
+        <div>
+            <h1 class="display-4 font-weight-lighter">Enter your text</h1>
+            <big class="font-weight-normal">Before send your text, please make sure that it belongs to the one of supported languages.</big>
+            <a style="font-size:larger" class="nav-link font-weight-normal text-dark text-left  " asp-area="" asp-page="/CheckLanguage">Check it out!</a>
+        </div>
+        <hr class="my-4">
+        <div class="form-group">
+            <textarea class="form-control font-weight-normal"spellcheck="true" asp-for="text" style="background-color:#C9C5C5"placeholder="Input text" rows="3"></textarea>
+        </div>
+        <div>
+            <button class="btn btn-secondary font-weight-normal" type="submit" value="Send">Send</button>
+        </div>
+
+       
+    </div>
 </form>

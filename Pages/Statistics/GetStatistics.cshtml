@@ -3,20 +3,33 @@
 @{
     ViewData["Title"] = "Add word";
 }
+
 <form method="get">
- <div class="input-group mb-3">
-     <input type="text" class="form-control" id="word" value="" placeholder="Input word" aria-label="Input word" aria-describedby="basic-addon2">
-     <div class="input-group-append">
-     <button class="btn btn-outline-secondary" id="send" type="button">Send</button>
-     </div>
- </div>
+    <div style="background-color:#ADAAAA" class="jumbotron">
+        <h1 class="display-4 font-weight-lighter">Enter a word</h1>
+        <p class="lead font-weight-normal">
+            You will get a 2 values: one of them show how many times your word was found in dictionary, second shows ratio.
+        </p>
+        
+        <div class="input-group mb-3">
+            <input spellcheck="true" type="text" class="input-group-text font-weight-normal"id="word" value="" style="background-color:#C9C5C5" placeholder="Input word" aria-label="Input word" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-secondary font-weight-normal" id="send" type="button">Send</button>
+            </div>
+        </div>
+        <hr>
+        <div class="font-weight-normal"  style="background-color:transparent">
+            <p class="lead font-weight-normal text-dark" id="result" >
+            </p>
+        </div>
+    </div>
 </form>
-<div id="result"></div>
+
  @section scripts{
 <script>
     $(function () {
         $('#send').on('click', function () {
-            $('#result').load('/Statistics/GetStatistics/Result?word='+document.getElementById("word").value);
+           $('#result').load('/Statistics/GetStatistics/Result?word=' + document.getElementById("word").value);
         });
     });
  </script>
