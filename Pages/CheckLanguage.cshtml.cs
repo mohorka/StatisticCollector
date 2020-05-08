@@ -13,8 +13,10 @@ namespace StatisticCollector.Pages
         [BindProperty]
         public string inputText { get; set; }
         public List<string> outputText { get; set; }
-        public string language { get; set; }
+        public List<string> languages = new List<string>();
         public string message { get; set; }
+
+        public DetectLanguageService languageService = new DetectLanguageService();
         public void OnGet()
         {
             message = "Input text to define language.";
@@ -23,13 +25,32 @@ namespace StatisticCollector.Pages
         {
             try
             {
-                outputText=ParserService.Parse(inputText);
-                language = DefineLanguageService.GetLanguage(outputText);
-                message = $"This is {language}. Now you can try another text.";
+                outputText = ParserService.Parse(inputText);
+                string langOfWord;
+                foreach (string word in outputText)
+                {
+                    langOfWord = languageService.GetLanguage(word);
+                    if (!languages.Contains(langOfWord))
+                    {
+                        languages.Add(langOfWord);
+                    }
+                }
+                string result = "This text contains ";
+                if (languages.Count > 1)
+                {
+                    for (int i = 0; i < (languages.Count) - 1; ++i)
+                    {
+                        result += languages[i];
+                        result += ",";
+                    }
+                }
+                result += languages[(languages.Count) - 1];
+                result += ". Now you can try another text if you wish.";
+                message = result;
             }
             catch
             {
-                message="Problems with parser's work. Make sure that you entered your text.";
+               message="Oops,it looks like your text does not belong to any supported languages.";
             }
 
 
