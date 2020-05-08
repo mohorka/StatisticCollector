@@ -29,7 +29,9 @@
 <script>
     $(function () {
         $('#send').on('click', function () {
-           $('#result').load('/Statistics/GetStatistics/Result?word=' + document.getElementById("word").value);
+            console.log();
+            $('#result').load('/Statistics/GetStatistics/Result?word=' + document.getElementById("word").value);
+            console.log();
         });
     });
  </script>
