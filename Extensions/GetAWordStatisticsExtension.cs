@@ -9,30 +9,47 @@ namespace StatisticCollector.Extensions
 {
     public static class GetAWordStatisticsExtension
     {
-        public static float Ratio(this ApplicationContext context, string word)
+        public static List<string> Ratio(this ApplicationContext context, string word)
         {
-            string _word = word;
-            if (_word == null)
+            if (word == null)
             {
                 throw new Exception("Nothing to search (Ratio method)");
             }
             else
             {
-                var wordToCount = context.Words.FirstOrDefault(x => x.Word == _word);
-                if (wordToCount == null)
+                List<string> result = new List<string>();
+                var wordsToCount = context.Words.Where(x => x.Word == word);
+                if (wordsToCount == null)
                 {
-                    return 0;
+                    result.Add("0");
+                    return result;
                 }
                 else
                 {
-                    IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == wordToCount.Language);
-                    return wordsInDb.WordsToDictionary(wordToCount.Language).Dictionary.GetRatio(wordToCount.Word);
+                    List<string> languages = new List<string>();
+                    
+                    foreach(SingleWord _word in wordsToCount)
+                    {
+                        if (!languages.Contains(_word.Language))
+                            languages.Add(_word.Language);
+                    }
+                    foreach(string language in languages)
+                    {
+                        
+                        IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
+                        string answer = "The ratio is " + wordsInDb.WordsToDictionary(language).Dictionary.GetRatio(word).ToString() + " for " + language;
+                        result.Add(answer);
+
+                        
+                    }
+
+                    return result;
                 }
             }
 
 
         }
-        public static string FrequencyInCompare(this ApplicationContext context, string word)
+        public static List<string> FrequencyInCompare(this ApplicationContext context, string word)
         {
             if (word == null)
             {
@@ -40,16 +57,29 @@ namespace StatisticCollector.Extensions
             }
             else
             {
-                var wordToCount = context.Words.FirstOrDefault(x => x.Word == word);
-                if (wordToCount == null)
+                List<string> result = new List<string>();
+                var wordsToCount = context.Words.Where(x => x.Word == word);
+                if (wordsToCount == null)
                 {
-                    return "This word isn't in dictionary now.";
+                    result.Add("This word isn't in dictionary now.");
+                    return result;
                 }
                 else
                 {
-                    IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == wordToCount.Language);
-                    return wordsInDb.WordsToDictionary(wordToCount.Language)
-                        .Dictionary.GetFrequencyInCompare(wordToCount.Word);
+                    List<string> languages = new List<string>();
+                    foreach (SingleWord _word in wordsToCount)
+                    {
+                        if (!languages.Contains(_word.Language))
+                            languages.Add(_word.Language);
+                    }
+                    foreach (string language in languages)
+                    {
+                        IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
+                        string answer = wordsInDb.WordsToDictionary(language).Dictionary.GetFrequencyInCompare(word) + "for "+ language;
+                        result.Add(answer);
+                    }
+
+                    return result;
                 }
 
             }
