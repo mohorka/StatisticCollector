@@ -13,12 +13,19 @@
         </div>
         <hr class="my-4">
         <div class="form-group">
-            <textarea class="form-control font-weight-normal"spellcheck="true" asp-for="text" style="background-color:#C9C5C5"placeholder="Input text" rows="3"></textarea>
+            <textarea class="form-control font-weight-normal" spellcheck="true" asp-for="text" style="background-color:#C9C5C5" placeholder="Input text" rows="3"></textarea>
         </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" name="isChecked" asp-for="isChecked" id="dif">
+            <label class="form-check-label" for="dif">
+                Different language
+            </label>
+        </div>
+        <hr>
         <div>
             <button class="btn btn-secondary font-weight-normal" type="submit" value="Send">Send</button>
         </div>
+      
 
-       
     </div>
 </form>
