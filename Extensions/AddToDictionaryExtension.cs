@@ -1,6 +1,8 @@
-﻿using System;
+﻿using StatisticCollector.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using StatisticCollector.Services;
 using System.Threading.Tasks;
 
 namespace StatisticCollector.Extensions
@@ -24,6 +26,25 @@ namespace StatisticCollector.Extensions
             }
 
 
+        }
+        private static DetectLanguageService languageService = new DetectLanguageService();
+        public static void AddWords(this List<SingleWord> words,List<string> parsedText)
+        {
+
+            foreach(string word in parsedText)
+            {
+                if (words.Any(x => x.Word == word))
+                {
+                    words.FirstOrDefault(x => x.Word == word).Frequency++;
+                }
+                else
+                {
+                    words.Add(new SingleWord 
+                    {   Frequency = 1, 
+                        Word = word, 
+                        Language = languageService.GetLanguage(word) });
+                }
+            }
         }
     }
 }

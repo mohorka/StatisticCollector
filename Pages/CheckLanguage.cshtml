@@ -4,21 +4,29 @@
     ViewData["Title"] = "Check language";
 }
 <form method="post">
-  <div style="background-color:#ADAAAA" class="jumbotron">
-   <h1 class="display-4 font-weight-lighter">A little prompt</h1>
-   <p class="lead font-weight-normal">
-           For now service is able to define only a few languages, which is shown in home page.
-           Also, it works better if you enter at least one sentence.
-   </p>
-   <hr class="my-4">
-   <big class="font-weight-normal">@Model.message</big>
-   <div class="input-group mb-3">
-       <input spellcheck="true" type="text" class="input-group-text font-weight-normal" style="background-color:#C9C5C5" name="inputText" aria-label="Input word" aria-describedby="basic-addon2">
-       <div class="input-group-append">
-           <button class="btn btn-secondary font-weight-normal" type="submit" value="Send">Send</button>
-       </div>
-   </div>
-      </div>
+    <div style="background-color:#ADAAAA" class="jumbotron">
+        <h1 class="display-4 font-weight-lighter">A little prompt</h1>
+        <p class="lead font-weight-normal">
+            This service is based on naive Bayesian classifier, so result is highly depends on your input:<br>
+            You can enter text used one language and result will be better, especially for one and more sentences,<br>
+            or you can enter text with many languages - for this please check "Different languages"-but result can be<br>
+            a little bit surprising.
+        </p>
+        <hr class="my-4">
+        <big class="font-weight-normal">@Model.message</big>
+        <hr>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" name="isChecked" asp-for="isChecked" id="dif">
+            <label class="form-check-label" for="dif">
+                Different language
+            </label>
+        </div>
+        <div class="input-group mb-3">
+            <input spellcheck="true" type="text" class="input-group-text font-weight-normal" style="background-color:#C9C5C5" name="inputText" aria-label="Input word" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-secondary font-weight-normal" type="submit" value="Send">Send</button>
+            </div>
+        </div>
+        <div id="result"></div>
+    </div>
 </form>
-
-       

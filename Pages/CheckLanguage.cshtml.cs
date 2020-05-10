@@ -10,10 +10,14 @@ namespace StatisticCollector.Pages
 {
     public class CheckLanguageModel : PageModel
     {
+
         [BindProperty]
         public string inputText { get; set; }
+        [BindProperty]
+        public bool isChecked { get; set; }
         public List<string> outputText { get; set; }
         public List<string> languages = new List<string>();
+        public string language { get; set; }
         public string message { get; set; }
 
         public DetectLanguageService languageService = new DetectLanguageService();
@@ -25,33 +29,39 @@ namespace StatisticCollector.Pages
         {
             try
             {
-                outputText = ParserService.Parse(inputText);
-                string langOfWord;
-                foreach (string word in outputText)
+                if (isChecked)
                 {
-                    langOfWord = languageService.GetLanguage(word);
-                    if (!languages.Contains(langOfWord))
+                    outputText = ParserService.Parse(inputText);
+                    languages = languageService.GetLanguages(outputText);
+                    string result = "This text probably contains ";
+                    if (languages.Count > 1)
                     {
-                        languages.Add(langOfWord);
+                        for (int i = 0; i < (languages.Count) - 1; ++i)
+                        {
+                            result += languages[i];
+                            result += ",";
+                        }
                     }
+                    result += languages[(languages.Count) - 1];
+                    result += ". Now you can try another text if you wish.";
+                    message = result;
                 }
-                string result = "This text contains ";
-                if (languages.Count > 1)
+                else
                 {
-                    for (int i = 0; i < (languages.Count) - 1; ++i)
-                    {
-                        result += languages[i];
-                        result += ",";
-                    }
+                    language = languageService.GetLanguage(inputText);
+                    message= $"This is {language}. Now you can try another text.";
                 }
-                result += languages[(languages.Count) - 1];
-                result += ". Now you can try another text if you wish.";
-                message = result;
             }
-            catch
+            catch (Exception e)
             {
-               message="Oops,it looks like your text does not belong to any supported languages.";
+                message = e.Message;
             }
+
+            
+           
+            
+              
+            
 
 
         }

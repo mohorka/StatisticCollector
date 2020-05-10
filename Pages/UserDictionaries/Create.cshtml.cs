@@ -15,15 +15,14 @@ namespace StatisticCollector.Pages.UserDictionaries
         private ApplicationContext _context;
       
         private List<string> newWords { get; set; }
-        private string language { get; set; }
-        private Dictionary<string, uint> dictionary = new Dictionary<string, uint>();
-
-       
-        //public UserDictionary inputDictionary { get; set; }
+        private List<string> languages { get; set; }
+        private List<SingleWord> wordsToAdd = new List<SingleWord>();
         private IQueryable<SingleWord> wordsInDb { get; set; }
+        public DetectLanguageService languageService = new DetectLanguageService();
 
         [BindProperty]
         public string text { get; set; }
+
         public CreateModel(ApplicationContext db) => _context = db;
         public void OnGet()
         {
@@ -35,32 +34,33 @@ namespace StatisticCollector.Pages.UserDictionaries
                 try
                 {   
                     newWords = ParserService.Parse(text);
-                    //inputDictionary.Language=DefineLanguageService.GetLanguage(newWords);
-                    language = DefineLanguageService.GetLanguage(newWords);
-                    //inputDictionary.Dictionary.AddWords(newWords);
-                    dictionary.AddWords(newWords);
-                    wordsInDb = _context.Words.Where(x => x.Language == language);
-                    
-                    if (wordsInDb == null)
-                    { 
-                        _context.AddRange(dictionary.DictionaryToSingleWords(language));
-
-                    }
-                    else
+                    wordsToAdd.AddWords(newWords);
+                    languages = languageService.GetLanguages(newWords);
+                    foreach(string language in languages)
                     {
-                        foreach (SingleWord word in dictionary.DictionaryToSingleWords(language))
+                        wordsInDb = _context.Words.Where(x => x.Language == language);
+                        if (wordsInDb == null)
                         {
-                            var wordToUpdate = wordsInDb.FirstOrDefault(x => x.Word == word.Word);
-                            if (wordToUpdate == null)
-                            {
-                                _context.Add(word);
-                            }
-                            else
-                            {
-                                _context.Words.Find(wordToUpdate.Id).Frequency += word.Frequency;
-                            }
+                            _context.AddRange(wordsToAdd);
                         }
+                        else
+                        {
+                            foreach(SingleWord word in wordsToAdd)
+                            {
+                                var wordToUpdate = wordsInDb.FirstOrDefault(x => x.Word == word.Word);
+                                if (wordToUpdate != null)
+                                {
+                                    _context.Words.Find(wordToUpdate.Id).Frequency += word.Frequency;
+                                }
+                                else
+                                    _context.Add(word);
+                            }
+                      
+                        }
+                        
                     }
+
+
                     await _context.SaveChangesAsync();
                     return RedirectToPage("../Index");
 
