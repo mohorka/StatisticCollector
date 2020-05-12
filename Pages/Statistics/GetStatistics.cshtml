@@ -30,7 +30,7 @@
     $(function () {
         $('#send').on('click', function () {
             console.log();
-            $('#result').load('/Statistics/GetStatistics/Result?word=' + document.getElementById("word").value);
+            $('#result').load('/Statistics/GetStatistics/ResultPartial?word=' + document.getElementById("word").value);
             console.log();
         });
     });

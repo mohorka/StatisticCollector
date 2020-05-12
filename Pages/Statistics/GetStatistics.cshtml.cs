@@ -6,25 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StatisticCollector.Models;
 using StatisticCollector.Extensions;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace StatisticCollector.Pages.Statistics
 {
     public class GetStatisticsModel : PageModel
     {
         private readonly ApplicationContext _context;
-     
+        public List<string> statistics { get; set; }
         public GetStatisticsModel(ApplicationContext context) => _context = context;
-        public JsonResult OnGetResult(string word) { 
+        public PartialViewResult OnGetResultPartial(string word) { 
             
             try
             {
-                
-                return new JsonResult(_context.Ratio(word));
+                statistics = _context.FrequencyInCompare(word);
+                statistics.AddRange(_context.Ratio(word));
+                return new PartialViewResult
+                {
+                    ViewName = "_Statistics",
+                    ViewData= new ViewDataDictionary<List<string>>(ViewData, statistics)
+
+                };
+               
                 
             }
             catch(Exception e)
             {
-                return new JsonResult(e.Message);
+                return new PartialViewResult
+                {
+                    ViewName = "_Statistics",
+                    ViewData = new ViewDataDictionary<List<string>>(ViewData, new List<string>(new[] { e.Message }))
+                };
+                
             }
             
         }

@@ -37,7 +37,7 @@ namespace StatisticCollector.Extensions
                     {
                         
                         IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
-                        string answer = "The ratio is " + wordsInDb.WordsToDictionary(language).Dictionary.GetRatio(word).ToString() + " for " + language;
+                        string answer = "The ratio is " + wordsInDb.WordsToDictionary(language).Dictionary.GetRatio(word).ToString() + "  for  " + language;
                         result.Add(answer);
 
                         
@@ -61,7 +61,7 @@ namespace StatisticCollector.Extensions
                 var wordsToCount = context.Words.Where(x => x.Word == word);
                 if (wordsToCount == null)
                 {
-                    result.Add("This word isn't in dictionary now.");
+                    result.Add("This word is not in dictionary now.");
                     return result;
                 }
                 else
@@ -75,7 +75,7 @@ namespace StatisticCollector.Extensions
                     foreach (string language in languages)
                     {
                         IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
-                        string answer = wordsInDb.WordsToDictionary(language).Dictionary.GetFrequencyInCompare(word) + "for "+ language;
+                        string answer = wordsInDb.WordsToDictionary(language).Dictionary.GetFrequencyInCompare(word) + " for  "+ language;
                         result.Add(answer);
                     }
 
