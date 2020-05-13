@@ -13,12 +13,14 @@
             a little bit surprising.
         </p>
         <hr class="my-4">
-        <big class="font-weight-normal">@Model.message</big>
+        <div class=" font-weight-normal" style="background-color:transparent">
+            @Model.message
+        </div>
         <hr>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="true" name="isChecked" asp-for="isChecked" id="dif">
             <label class="form-check-label" for="dif">
-                Different language
+                Different languages
             </label>
         </div>
         <div class="input-group mb-3">
@@ -26,6 +28,6 @@
             <div class="input-group-append">
                 <button class="btn btn-secondary font-weight-normal" type="submit" value="Send">Send</button>
             </div>
-        </div>        
+        </div>
     </div>
 </form>

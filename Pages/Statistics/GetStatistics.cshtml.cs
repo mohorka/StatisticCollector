@@ -19,6 +19,7 @@ namespace StatisticCollector.Pages.Statistics
             
             try
             {
+                word.ToLower();
                 statistics = _context.FrequencyInCompare(word);
                 statistics.AddRange(_context.Ratio(word));
                 return new PartialViewResult

@@ -8,7 +8,10 @@
     <div style="background-color:#ADAAAA" class="jumbotron">
         <div>
             <h1 class="display-4 font-weight-lighter">Enter your text</h1>
-            <big class="font-weight-normal">Before send your text, please make sure that it belongs to the one of supported languages.</big>
+            <big class="font-weight-normal">
+                If your text consists more than one language, choose "Different langauges".<br>
+                Before send your text you can figure out to which language your text belongs.
+            </big>
             <a style="font-size:larger" class="nav-link font-weight-normal text-dark text-left  " asp-area="" asp-page="/CheckLanguage">Check it out!</a>
         </div>
         <hr class="my-4">
@@ -18,7 +21,7 @@
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="true" name="isChecked" asp-for="isChecked" id="dif">
             <label class="form-check-label" for="dif">
-                Different language
+                Different languages
             </label>
         </div>
         <hr>
