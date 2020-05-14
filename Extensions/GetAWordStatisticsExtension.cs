@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StatisticCollector.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace StatisticCollector.Extensions
 {
@@ -13,33 +14,46 @@ namespace StatisticCollector.Extensions
         {
             if (word == null)
             {
-                throw new Exception("Nothing to search (Ratio method)");
+                throw new Exception("Nothing to count, please make sure you have entered a word.");
             }
             else
             {
-                List<string> result = new List<string>();
-                var wordsToCount = context.Words.Where(x => x.Word == word);
-                List<string> languages = new List<string>();
-                foreach(SingleWord _word in wordsToCount)
+               
+                var wordsToCount = context.Words.AsNoTracking().Where(x => x.Word == word).ToList();
+                if (wordsToCount == null)
                 {
-                    if (!languages.Contains(_word.Language))
+                    throw new Exception("This word is not in dictionaries for now.");
+                }
+                else
+                {
+                    if (wordsToCount.Count == 0)
+                    {
+                        throw new Exception("This word is not in dictionaries for now.");
+                    }
+                    else
+                    {
+                        List<string> result = new List<string>();
+                        List<string> languages = new List<string>();
+                        foreach (SingleWord _word in wordsToCount)
+                        {
                             languages.Add(_word.Language);
-                       
-                }
-                foreach (string language in languages)
-                {
-                    IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
-                    string answer = "The ratio is " + wordsInDb.WordsToDictionary(language).Dictionary.GetRatio(word).ToString() + "  for  " + language;
-                    result.Add(answer);
+                        }
+                        foreach (string language in languages)
+                        {
+                            IQueryable<SingleWord> wordsInDb = context.Words.AsNoTracking().Where(x => x.Language == language);
+                            string answer = "The ratio is " + wordsInDb.WordsToDictionary(language)
+                                .Dictionary.GetRatio(word).ToString() + "  for  " + language;
+                            result.Add(answer);
 
+                        }
+                        return result;
+
+                    }
                 }
-                if (result == null)
-                {
-                    result.Add("0");
-                    
-                }
-                return result;
+
             }
+            
+
         }
 
 
@@ -48,33 +62,43 @@ namespace StatisticCollector.Extensions
         {
             if (word == null)
             {
-                throw new Exception("Nothing to search (FrequencyInCompare method)");
+                throw new Exception("Nothing to count, please make sure you have entered a word.");
             }
             else
             {
-                List<string> result = new List<string>();
-                var wordsToCount = context.Words.Where(x => x.Word == word);
-                List<string> languages = new List<string>();
-                foreach (SingleWord _word in wordsToCount)
+                var wordsToCount = context.Words.AsNoTracking().Where(x => x.Word == word).ToList();
+                if (wordsToCount == null)
                 {
-                    if (!languages.Contains(_word.Language))
+                    throw new Exception("This word is not in dictionaries for now.");
+                }
+                else
+                {
+                    if (wordsToCount.Count == 0)
+                    {
+                        throw new Exception("This word is not in dictionaries for now.");
+                    }
+                    else
+                    {
+                        List<string> result = new List<string>();
+                        List<string> languages = new List<string>();
+                        foreach (SingleWord _word in wordsToCount)
+                        {
                             languages.Add(_word.Language);
+                        }
+                        foreach(string language in languages)
+                        {
+                            IQueryable<SingleWord> wordsInDb = context.Words.AsNoTracking().Where(x => x.Language == language);
+                            string answer = wordsInDb.WordsToDictionary(language).Dictionary.GetFrequencyInCompare(word) + " for  " + language;
+                            result.Add(answer);
+                        }
+                        return result;
+
+                    }
                 }
-                foreach (string language in languages)
-                {
-                    IQueryable<SingleWord> wordsInDb = context.Words.Where(x => x.Language == language);
-                    string answer = wordsInDb.WordsToDictionary(language).Dictionary.GetFrequencyInCompare(word) + " for  "+ language;
-                    result.Add(answer);
-                }
-                if (result == null)
-                {
-                    result.Add("This word is not in dictionary now.");
-                }
-                    
-                return result;
-                
 
             }
+
+
         }
 
     }

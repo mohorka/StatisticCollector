@@ -17,11 +17,12 @@ namespace StatisticCollector.Pages.Statistics
         public GetStatisticsModel(ApplicationContext context) => _context = context;
         public PartialViewResult OnGetResultPartial(string word) { 
             
-            //try
-            //{
-             
-                statistics = _context.FrequencyInCompare(word.ToLower());
-                statistics.AddRange(_context.Ratio(word.ToLower()));
+            try
+            {
+
+                //statistics = _context.FrequencyInCompare(word.ToLower());
+                //statistics.AddRange(_context.Ratio(word.ToLower()));
+                statistics = _context.Ratio(word.ToLower());
                 return new PartialViewResult
                 {
                     ViewName = "_Statistics",
@@ -30,8 +31,8 @@ namespace StatisticCollector.Pages.Statistics
                 };
                
                 
-           // }
-            /*catch(Exception e)
+            }
+            catch(Exception e)
             {
                 return new PartialViewResult
                 {
@@ -39,7 +40,7 @@ namespace StatisticCollector.Pages.Statistics
                     ViewData = new ViewDataDictionary<List<string>>(ViewData, new List<string>(new[] { e.Message }))
                 };
                 
-            }*/
+            }
             
         }
     }
