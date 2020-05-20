@@ -101,5 +101,42 @@ namespace StatisticCollector.Extensions
 
         }
 
+        public static List<string> GetTop(this ApplicationContext context, string language)
+        {
+            if (language == null)
+            {
+                throw new Exception("No language to find, please, input the language.");
+            }
+            else
+            {
+                var particularDictionary = context.Words.AsNoTracking()
+                    .Where(x => x.Language == language).ToList();
+                if(particularDictionary==null || particularDictionary.Count == 0)
+                {
+                    throw new Exception("Service has not got the dictionary of this language. Make sure that you entered language without misspellings.");
+                }
+                else
+                {
+                    List<string> result = new List<string>();
+                    result.Add("The top for " +language+ " is: ");
+                    particularDictionary.Sort((x, y) => x.Frequency.CompareTo(y.Frequency));
+                    uint frequency = 0;
+                    int counter = 0;
+                    for(int i=particularDictionary.Count-1;i>0;--i)
+                    {
+                        if (particularDictionary[i].Frequency!=frequency)
+                        {
+                            counter++;
+                            frequency = particularDictionary[i].Frequency;
+                            result.Add(particularDictionary[i].Word + "(" + particularDictionary[i].Frequency.ToString() + ") ");
+                        }
+                        if (counter == 5)
+                            break;
+                    }
+                    return result;
+                }
+            }
+        }
+
     }
 }

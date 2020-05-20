@@ -20,7 +20,10 @@ namespace StatisticCollector.Extensions
                 }
                 else
                 {
-                    dictionary.Add(word, 1);
+                    if (word.Length >= 3)
+                    {
+                        dictionary.Add(word, 1);
+                    }
                 }
 
             }
@@ -39,10 +42,15 @@ namespace StatisticCollector.Extensions
                 }
                 else
                 {
-                    words.Add(new SingleWord 
-                    {   Frequency = 1, 
-                        Word = word, 
-                        Language = languageService.GetLanguage(word) });
+                    if (word.Length >= 3)
+                    {
+                        words.Add(new SingleWord
+                        {
+                            Frequency = 1,
+                            Word = word,
+                            Language = languageService.GetLanguage(word)
+                        });
+                    }
                 }
             }
         }

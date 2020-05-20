@@ -10,38 +10,32 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace StatisticCollector.Pages.Statistics
 {
-    public class GetStatisticsModel : PageModel
+    public class GetTopModel : PageModel
     {
         private readonly ApplicationContext _context;
-        public List<string> statistics { get; set; }
-        public GetStatisticsModel(ApplicationContext context) => _context = context;
-        public PartialViewResult OnGetResultPartial(string word) { 
-            
+        public List<string> top { get; set; }
+        public GetTopModel(ApplicationContext context) => _context = context;
+        public PartialViewResult OnGetTopPartial(string language)
+        {
             try
             {
-
-                statistics = _context.FrequencyInCompare(word.ToLower());
-                statistics.AddRange(_context.Ratio(word.ToLower()));
-                //statistics = _context.Ratio(word.ToLower());
+                top = _context.GetTop(language.ToLower());
                 return new PartialViewResult
                 {
-                    ViewName = "_Statistics",
-                    ViewData= new ViewDataDictionary<List<string>>(ViewData, statistics)
-
+                    ViewName="_Top",
+                    ViewData= new ViewDataDictionary<List<string>>(ViewData, top)
                 };
-               
-                
+
             }
             catch(Exception e)
             {
                 return new PartialViewResult
                 {
-                    ViewName = "_Statistics",
+                    ViewName = "_Top",
                     ViewData = new ViewDataDictionary<List<string>>(ViewData, new List<string>(new[] { e.Message }))
                 };
-                
             }
-            
         }
     }
+        
 }
