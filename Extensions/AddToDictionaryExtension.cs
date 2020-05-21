@@ -20,7 +20,7 @@ namespace StatisticCollector.Extensions
                 }
                 else
                 {
-                    if (word.Length >= 3)
+                    if (word.Length > 3)
                     {
                         dictionary.Add(word, 1);
                     }
@@ -42,7 +42,7 @@ namespace StatisticCollector.Extensions
                 }
                 else
                 {
-                    if (word.Length >= 3)
+                    if (word.Length > 3)
                     {
                         words.Add(new SingleWord
                         {
